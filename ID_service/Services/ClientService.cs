@@ -13,6 +13,12 @@ namespace ID_service.Services
         {
             _context = context;
         }
+        public async Task<ClientModel?> GetClientByUsername(string username)
+        {
+            var client = await _context.Clients.FindAsync(username);
+
+            return client is not null ? client : null;
+        }
 
         public async Task CreateClient(ClientCreateDTO request)
         {
@@ -20,6 +26,7 @@ namespace ID_service.Services
             if (_context.Clients.FirstOrDefault(c => c.Email == request.Email) != null) throw new Exception("Email  já cadastrado");
             var client = new ClientModel
             {
+                Id = Guid.NewGuid(),
                 AccessInformation = new AccessInformation()
                 {
                     Username = request.UserName,
