@@ -24,8 +24,9 @@ namespace ID_service.Services
             return client is not null ? client : null;
         }
 
-        public async Task CreateClient(ClientCreateDTO request)
+        public async Task<ClientModel> CreateClient(ClientCreateDTO request)
         {
+            if(_context.Clients.FirstOrDefault(c => c.Username == request.UserName) != null) throw new Exception("Username  já cadastrado");
             if (_context.Clients.FirstOrDefault(c => c.SSN == request.SSN) != null) throw new Exception("CPF  já cadastrado");
             if (_context.Clients.FirstOrDefault(c => c.Email == request.Email) != null) throw new Exception("Email  já cadastrado");
             //byte[] key = _generator.GenerateKey();
@@ -48,6 +49,7 @@ namespace ID_service.Services
             };
             await _context.Clients.AddAsync(client);
             await _context.SaveChangesAsync();
+            return client;
         }
 
         public async Task DeleteClient(Guid id)
