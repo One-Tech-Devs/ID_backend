@@ -43,9 +43,7 @@ namespace ID_service.Services
                 SecurityPhrase = request.SecurityPhrase,
                 Email = request.Email,
                 SSN = request.SSN,
-                NIC = request.NIC,
-                PhoneNumber = request.PhoneNumber,
-                SocialName = request.SocialName
+                NIC = request.NIC
             };
             await _context.Clients.AddAsync(client);
             await _context.SaveChangesAsync();
