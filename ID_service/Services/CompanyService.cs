@@ -3,12 +3,18 @@ using ID_service.Interfaces;
 using ID_model.Models;
 using ID_repository.Data;
 using Azure.Core;
+using Microsoft.EntityFrameworkCore;
 
 namespace ID_service.Services
 {
     public class CompanyService : ICompanyService
     {
         private readonly DataContext _context;
+
+        public CompanyService(DataContext context)
+        {
+            _context = context;
+        }
 
         public async Task<CompanyModel> CreateCompany(CreateCompanyDTO createCompanyRequest)
         {
@@ -43,30 +49,23 @@ namespace ID_service.Services
 
         public async Task<CompanyModel?> GetCompanyByUsername(string username)
         {
-            var company = await _context.Companies.FindAsync(username);
+            var company = await _context.Companies.FirstOrDefaultAsync(c => c.Username == username);
 
             return company is not null ? company : null;
         }
 
         public async Task<CompanyModel?> GetCompanyByEmail(string corporateEmail)
         {
-            var company = await _context.Companies.FindAsync(corporateEmail);
+            var company = await _context.Companies.FirstOrDefaultAsync(c => c.Email == corporateEmail);
 
             return company is not null ? company : null;
         }
 
         public async Task<CompanyModel?> GetCompanyByCorporateDocument(string corporateDocument)
         {
-            try
-            {
-                var company = await _context.Companies.FindAsync(corporateDocument);
+            var company = await _context.Companies.FirstOrDefaultAsync(c => c.CorporateDocument == corporateDocument);
 
-                return company is not null ? company : null;
-            } catch (Exception ex)
-            {
-                return null;
-            }
-
+            return company is not null ? company : null;
             
         }
 
