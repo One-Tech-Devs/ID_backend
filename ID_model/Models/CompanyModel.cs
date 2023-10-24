@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ID_model.Models
+﻿namespace ID_model.Models
 {
     public class CompanyModel : UserModel
     {
@@ -12,5 +6,7 @@ namespace ID_model.Models
         public string BusinessName { get; set; }
         public string CorporateDocument { get; set; }
         public bool StatusRF { get; set; } = false;
+        public Guid AddressId { get; set; }
+        public AddressModel? Address { get; set; }
     }
 }
