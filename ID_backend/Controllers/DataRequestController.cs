@@ -20,7 +20,7 @@ namespace ID_backend.Controllers
         [HttpGet]
         public async Task<ActionResult<List<DataRequestModel>>> GetAllDataRequest()
         {
-            var requests = _service.GetAllDataRequest();
+            var requests = await _service.GetAllDataRequest();
             return Ok(requests);
         }
 
@@ -35,7 +35,7 @@ namespace ID_backend.Controllers
         [HttpPost]
         public async Task<ActionResult<DataRequestModel>> CreateDataRequest(DataRequestDTO requestDto)
         {
-            var request = _service.CreateDataRequest(requestDto);
+            var request = await _service.CreateDataRequest(requestDto);
             if (request is null) return BadRequest("Client/Company not found");
             return Ok(request);
         }
