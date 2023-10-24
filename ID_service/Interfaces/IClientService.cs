@@ -1,5 +1,6 @@
 ﻿using ID_model.DTOs;
 using ID_model.Models;
+using ID_service.Services;
 
 namespace ID_service.Interfaces
 {

@@ -8,11 +8,14 @@ namespace ID_service.Services
     public class ClientService : IClientService
     {
         private readonly DataContext _context;
+        private readonly Generator _generator;
 
-        public ClientService(DataContext context)
+        public ClientService(DataContext context, Generator generator)
         {
             _context = context;
+            _generator = generator;
         }
+
         public async Task<ClientModel?> GetClientByUsername(string username)
         {
             var client = await _context.Clients.FindAsync(username);
@@ -24,13 +27,16 @@ namespace ID_service.Services
         {
             if (_context.Clients.FirstOrDefault(c => c.SSN == request.SSN) != null) throw new Exception("CPF  já cadastrado");
             if (_context.Clients.FirstOrDefault(c => c.Email == request.Email) != null) throw new Exception("Email  já cadastrado");
+            byte[] key = _generator.GenerateKey();
+            byte[] iv = _generator.GenerateIV();
+
             var client = new ClientModel
             {
                 Id = Guid.NewGuid(),
                 AccessInformation = new AccessInformation()
                 {
                     Username = request.UserName,
-                    Password = request.Password
+                    Password = Encryption.Encrypt(request.Password, key, iv)
                 },
                 Name = request.Name,
                 SecurityPhrase = request.SecurityPhrase,

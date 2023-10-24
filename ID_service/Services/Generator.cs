@@ -2,7 +2,7 @@
 
 namespace ID_service.Services
 {
-    internal class Generator
+    public class Generator
     {
         private readonly RandomNumberGenerator rng;
 
