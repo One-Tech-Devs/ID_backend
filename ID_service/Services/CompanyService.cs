@@ -2,7 +2,6 @@
 using ID_service.Interfaces;
 using ID_model.Models;
 using ID_repository.Data;
-using System.IO;
 
 namespace ID_service.Services
 {
@@ -58,20 +57,19 @@ namespace ID_service.Services
             return company is not null ? company : null;
         }
 
-
         private async Task<bool> ValidationRegistrationInformation(CreateCompanyDTO createCompanyRequest)
         {
-            var company = await GetCompanyByUsername(createCompanyRequest.Username);
+            var corporateDocument = await GetCompanyByCorporateDocument(createCompanyRequest.CorporateDocument);
 
-            if (company is null) 
+            if (corporateDocument is null) 
             {
                 var email = await GetCompanyByEmail(createCompanyRequest.CorporateEmail);
 
-                if (email is not null)
+                if (email is null)
                 {
-                    var corporateDocument = await GetCompanyByCorporateDocument(createCompanyRequest.CorporateDocument);
+                    var username = await GetCompanyByUsername(createCompanyRequest.Username);
 
-                    return  corporateDocument is null;
+                    return username is null;
                 }
 
                 return false;

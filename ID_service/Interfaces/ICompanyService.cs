@@ -6,7 +6,8 @@ namespace ID_service.Interfaces
     public interface ICompanyService
     {
         Task<CompanyModel> CreateCompany(CreateCompanyDTO createCompanyRequest);
-
-        Task<AddressModel> UpdateAddress(Guid idClient, AddressUpdateDTO request);
+        Task<CompanyModel?> GetCompanyByCorporateDocument(string corporateDocument);
+        Task<CompanyModel?> GetCompanyByEmail(string corporateEmail);
+        Task<CompanyModel?> GetCompanyByUsername(string username);
     }
 }
