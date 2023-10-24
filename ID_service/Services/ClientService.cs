@@ -2,6 +2,7 @@
 using ID_model.Models;
 using ID_repository.Data;
 using ID_service.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace ID_service.Services
 {
@@ -29,6 +30,22 @@ namespace ID_service.Services
             if(_context.Clients.FirstOrDefault(c => c.Username == request.UserName) != null) throw new Exception("Username  já cadastrado");
             if (_context.Clients.FirstOrDefault(c => c.SSN == request.SSN) != null) throw new Exception("CPF  já cadastrado");
             if (_context.Clients.FirstOrDefault(c => c.Email == request.Email) != null) throw new Exception("Email  já cadastrado");
+
+            var address = new AddressModel
+            {
+                Id = Guid.NewGuid(),
+                Country = "", 
+                StateOrProvince = "",
+                CityOrVillage = "",
+                PostalCode = "",
+                Neighborhood = "",
+                Street = "",
+                Number = ""
+            };
+
+            await _context.Addresses.AddAsync(address);
+            await _context.SaveChangesAsync();
+
             byte[] key = _generator.GenerateKey();
             byte[] iv = _generator.GenerateIV();
 
@@ -43,7 +60,8 @@ namespace ID_service.Services
                 SecurityPhrase = request.SecurityPhrase,
                 Email = request.Email,
                 SSN = request.SSN,
-                NIC = request.NIC
+                NIC = request.NIC,
+                AddressId = address.Id
             };
             await _context.Clients.AddAsync(client);
             await _context.SaveChangesAsync();
@@ -61,7 +79,7 @@ namespace ID_service.Services
         public async Task UpdateAddress(Guid idClient, AddressUpdateDTO request)
 
         {
-            var client = await _context.Clients.FindAsync(idClient) ?? throw new Exception("Usuário não encontrado");
+            var client = await _context.Clients.Include(c => c.Address).FirstOrDefaultAsync(c => c.Id == idClient) ?? throw new Exception("Usuário não encontrado");
             client.Address.Country = request.Country;
             client.Address.StateOrProvince = request.StateOrProvince;
             client.Address.CityOrVillage = request.CityOrVillage;
