@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ID_model.Models
 {
-    internal class AddressModel
+    public class AddressModel
     {
         public Guid Id { get; set; }
         public string Country { get; set; } = string.Empty;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ID_model.Models
 {
-    internal class CompanyModel : UserModel
+    public class CompanyModel : UserModel
     {
         public string CompanyName { get; set; }
         public string BusinessName { get; set; }
