@@ -1,8 +1,6 @@
 ﻿using ID_model.DTOs;
 using ID_model.Models;
 using ID_service.Interfaces;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ID_backend.Controllers
@@ -26,6 +24,30 @@ namespace ID_backend.Controllers
             if (!company.StatusRF) { return BadRequest("Company with 'inactive' status"); }
 
             return company is not null ? Ok(company) : BadRequest("Unable to register. There is already a company with this data!");
+        }
+
+        [HttpGet("{corporateDocument}")]
+        public async Task<ActionResult<CompanyModel>> GetCompanyByCorporateDocument(string corporateDocument)
+        {
+            var company = await _companyService.GetCompanyByCorporateDocument(corporateDocument);
+
+            return company is not null ? Ok(company) : NotFound("Company not found!");
+        }
+
+        [HttpGet("{corporateEmail}")]
+        public async Task<ActionResult<CompanyModel>> GetCompanyByCorporateEmail(string corporateEmail)
+        {
+            var company = await _companyService.GetCompanyByEmail(corporateEmail);
+
+            return company is not null ? Ok(company) : NotFound("Company not found!");
+        }
+
+        [HttpGet("{companyUsername}")]
+        public async Task<ActionResult<CompanyModel>> GetCompanyByUsername(string companyUsername)
+        {
+            var company = await _companyService.GetCompanyByUsername(companyUsername);
+
+            return company is not null ? Ok(company) : NotFound("Company not found!");
         }
 
 
