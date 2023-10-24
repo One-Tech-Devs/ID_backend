@@ -2,6 +2,7 @@
 using ID_service.Interfaces;
 using ID_model.Models;
 using ID_repository.Data;
+using Azure.Core;
 
 namespace ID_service.Services
 {
@@ -20,6 +21,10 @@ namespace ID_service.Services
                 var company = new CompanyModel() 
                 {
                     Id = Guid.NewGuid(),
+                    Username = createCompanyRequest.Username,
+                    //Password = Encryption.Encrypt(request.Password, key, iv)
+                    Password = createCompanyRequest.Password,
+                    Role = "Company",
                     CompanyName = createCompanyRequest.CompanyName,
                     BusinessName = createCompanyRequest.BusinessName,
                     StatusRF = true,
@@ -52,9 +57,17 @@ namespace ID_service.Services
 
         public async Task<CompanyModel?> GetCompanyByCorporateDocument(string corporateDocument)
         {
-            var company = await _context.Companies.FindAsync(corporateDocument);
+            try
+            {
+                var company = await _context.Companies.FindAsync(corporateDocument);
 
-            return company is not null ? company : null;
+                return company is not null ? company : null;
+            } catch (Exception ex)
+            {
+                return null;
+            }
+
+            
         }
 
         private async Task<bool> ValidationRegistrationInformation(CreateCompanyDTO createCompanyRequest)
