@@ -2,6 +2,7 @@
 using ID_service.Interfaces;
 using ID_model.Models;
 using ID_repository.Data;
+using Azure.Core;
 
 namespace ID_service.Services
 {
@@ -20,6 +21,10 @@ namespace ID_service.Services
                 var company = new CompanyModel() 
                 {
                     Id = Guid.NewGuid(),
+                    Username = createCompanyRequest.Username,
+                    //Password = Encryption.Encrypt(request.Password, key, iv)
+                    Password = createCompanyRequest.Password,
+                    Role = "Company",
                     CompanyName = createCompanyRequest.CompanyName,
                     BusinessName = createCompanyRequest.BusinessName,
                     StatusRF = true,
