@@ -1,12 +1,15 @@
 ﻿using ID_model.DTOs;
 using ID_service.Interfaces;
 using ID_model.Models;
+using ID_repository.Data;
+using System.IO;
 
 namespace ID_service.Services
 {
     public class CompanyService : ICompanyService
     {
-        private static readonly List<CompanyModel> companyModels = new();
+        private readonly DataContext _context;
+
         public async Task<CompanyModel> CreateCompany(CreateCompanyDTO createCompanyRequest)
         {
             bool validStatus = await ValidateCompanyRegistration(createCompanyRequest.CorporateDocument);
@@ -25,19 +28,56 @@ namespace ID_service.Services
                     Email = createCompanyRequest.CorporateEmail
                 };
 
-                companyModels.Add(company);
+                _context.Companies.Add(company);
+                await _context.SaveChangesAsync();
 
                 return company;
             }
 
-            return new CompanyModel();            
+            return new CompanyModel();
         }
 
-        private Task<bool> ValidationRegistrationInformation(CreateCompanyDTO createCompanyRequest)
+        public async Task<CompanyModel?> GetCompanyByUsername(string username)
         {
-            //TO DO
-            //realizar validações de email unico e cnpj unico quando os serviço de get estiverem prontos
-            return Task.FromResult(createCompanyRequest is not null);
+            var company = await _context.Companies.FindAsync(username);
+
+            return company is not null ? company : null;
+        }
+
+        public async Task<CompanyModel?> GetCompanyByEmail(string corporateEmail)
+        {
+            var company = await _context.Companies.FindAsync(corporateEmail);
+
+            return company is not null ? company : null;
+        }
+
+        public async Task<CompanyModel?> GetCompanyByCorporateDocument(string corporateDocument)
+        {
+            var company = await _context.Companies.FindAsync(corporateDocument);
+
+            return company is not null ? company : null;
+        }
+
+
+        private async Task<bool> ValidationRegistrationInformation(CreateCompanyDTO createCompanyRequest)
+        {
+            var company = await GetCompanyByUsername(createCompanyRequest.Username);
+
+            if (company is null) 
+            {
+                var email = await GetCompanyByEmail(createCompanyRequest.CorporateEmail);
+
+                if (email is not null)
+                {
+                    var corporateDocument = await GetCompanyByCorporateDocument(createCompanyRequest.CorporateDocument);
+
+                    return  corporateDocument is null;
+                }
+
+                return false;
+            }
+
+            return false;
         }
 
         private static Task<bool> ValidateCompanyRegistration(string corporateDocument)

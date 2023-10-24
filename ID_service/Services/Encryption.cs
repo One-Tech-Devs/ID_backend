@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ID_service.Services
 {
-    internal class Encryption
+    public class Encryption
     {
         static byte[] Encrypt(string data, byte[] key, byte[] iv)
         {
