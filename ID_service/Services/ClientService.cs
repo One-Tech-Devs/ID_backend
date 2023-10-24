@@ -24,11 +24,13 @@ namespace ID_service.Services
         {
             if (_context.Clients.FirstOrDefault(c => c.SSN == request.SSN) != null) throw new Exception("CPF  já cadastrado");
             if (_context.Clients.FirstOrDefault(c => c.Email == request.Email) != null) throw new Exception("Email  já cadastrado");
-            if (_context.Clients.FirstOrDefault(c => c.UserName == request.UserName) != null) throw new Exception("Nome de Usuário já existe");
             var client = new ClientModel
             {
-                UserName = request.UserName,
-                Password = request.Password,
+                AccessInformation = new AccessInformation()
+                {
+                    Username = request.UserName,
+                    Password = request.Password
+                },
                 Name = request.Name,
                 SecurityPhrase = request.SecurityPhrase,
                 Email = request.Email,
@@ -41,17 +43,12 @@ namespace ID_service.Services
             await _context.SaveChangesAsync();
         }
 
-        public Task DeleteClient(Guid id)
+        public async Task DeleteClient(Guid id)
         {
-            var client = _context.Clients.FindAsync(id);
+            var client = await _context.Clients.FindAsync(id) ?? throw new Exception ("Usuário não encontrado");
+            _context.Clients.Remove(client);
+            await _context.SaveChangesAsync();
 
-        }
-
-        public async Task<string> GetClientByUserName(string request)
-        {
-            var userName = await _context.Clients.FindAsync(request);
-            if (userName == null) return null;
-            return "Username não disponível";
         }
 
         public async Task UpdateAddress(Guid idClient, AddressUpdateDTO request)
