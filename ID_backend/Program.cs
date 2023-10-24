@@ -1,6 +1,7 @@
 using ID_repository.Data;
 using ID_service.Interfaces;
 using ID_service.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Emit;
 

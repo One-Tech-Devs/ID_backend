@@ -23,10 +23,9 @@ namespace ID_service.Services
 
         public async Task<DataRequestModel> CreateDataRequest(DataRequestDTO request)
         {
-            var client = await _context.Clients.FindAsync(request.ClientId);
-            var company = await _context.Companies.FindAsync(request.CompanyId);
+            var client = await _context.Clients.FirstOrDefaultAsync(c => c.Username == request.ClientUsername);
+            var company = await _context.Companies.FirstOrDefaultAsync(c => c.Username == request.CompanyUsername);
 
-            
             if (client is null) return new DataRequestModel();
             if (company is null) return new DataRequestModel();
 
@@ -39,14 +38,13 @@ namespace ID_service.Services
                 CompanyId = company.Id,
                 ClientId = client.Id,
                 RequestCreation = nowInBrazil,
-                RequestExpiration = request.RequestExpiration,
+                RequestExpiration = nowInBrazil,
                 Status = "Pendente",
-                ClientData = string.Join(",", request.ClientData)
+                ClientData = string.Join(", ", request.ClientData)
             };
 
-           _context.DataRequests.Add(dataRequestModel);
+            _context.DataRequests.Add(dataRequestModel);
             await _context.SaveChangesAsync();
-            
 
             return dataRequestModel;
         }
