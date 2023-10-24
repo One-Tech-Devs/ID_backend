@@ -1,8 +1,6 @@
 ﻿using ID_model.DTOs;
 using ID_model.Models;
 using ID_service.Interfaces;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ID_backend.Controllers
