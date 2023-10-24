@@ -1,5 +1,8 @@
-﻿namespace ID_model.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ID_model.Models
 {
+    [NotMapped]
     public class AccessInformation
     {
         public string Username { get; set; }
