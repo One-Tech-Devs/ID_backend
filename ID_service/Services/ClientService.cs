@@ -34,12 +34,10 @@ namespace ID_service.Services
             var client = new ClientModel
             {
                 Id = Guid.NewGuid(),
-                AccessInformation = new AccessInformation()
-                {
-                    Username = request.UserName,
-                    //Password = Encryption.Encrypt(request.Password, key, iv)
-                    Password = request.Password
-                },
+                Username = request.UserName,
+                //Password = Encryption.Encrypt(request.Password, key, iv)
+                Password = request.Password,
+                Role = "Client",
                 Name = request.Name,
                 SecurityPhrase = request.SecurityPhrase,
                 Email = request.Email,
