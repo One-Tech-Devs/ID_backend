@@ -6,14 +6,11 @@ using System.Threading.Tasks;
 
 namespace ID_model.Models
 {
-    internal class CompanyModel
+    internal class CompanyModel : UserModel
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public string CNPJ { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
-        public string Phone { get; set; } = string.Empty;
-        public Guid AddressId { get; set; }
-        public AddressModel Address { get; set; } = new AddressModel();
+        public string CompanyName { get; set; }
+        public string BusinessName { get; set; }
+        public string CorporateDocument { get; set; }
+        public bool StatusRF { get; set; } = false;
     }
 }
