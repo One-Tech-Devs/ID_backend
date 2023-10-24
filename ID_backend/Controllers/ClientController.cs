@@ -19,7 +19,7 @@ namespace ID_backend.Controllers
         public async Task<ActionResult> CreateClient(ClientCreateDTO request)
         {
             await _service.CreateClient(request);
-            return Ok("Usuário cadastrado com sucesso!");
+            return Ok(request);
         }
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateClient(Guid id, ClientUpdateDTO request)
