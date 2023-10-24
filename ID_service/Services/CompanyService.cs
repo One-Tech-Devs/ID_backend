@@ -52,9 +52,17 @@ namespace ID_service.Services
 
         public async Task<CompanyModel?> GetCompanyByCorporateDocument(string corporateDocument)
         {
-            var company = await _context.Companies.FindAsync(corporateDocument);
+            try
+            {
+                var company = await _context.Companies.FindAsync(corporateDocument);
 
-            return company is not null ? company : null;
+                return company is not null ? company : null;
+            } catch (Exception ex)
+            {
+                return null;
+            }
+
+            
         }
 
         private async Task<bool> ValidationRegistrationInformation(CreateCompanyDTO createCompanyRequest)

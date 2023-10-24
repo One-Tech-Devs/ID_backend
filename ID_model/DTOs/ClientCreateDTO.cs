@@ -11,6 +11,5 @@
         public string? PhoneNumber { get; set; }
         public required string SSN { get; set; }
         public string? NIC { get; set; }
-        public Guid AddressId { get; set; }
     }
 }
