@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\ID_model\ID_model.csproj" />
     <ProjectReference Include="..\ID_repository\ID_repository.csproj" />
   </ItemGroup>
