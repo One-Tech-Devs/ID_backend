@@ -21,7 +21,7 @@ namespace ID_backend.Controllers
         {
             var company = await _companyService.CreateCompany(request);
 
-            if (!company.StatusRF) { return BadRequest("Company with 'inactive' status"); }
+            //if (!company.StatusRF) { return BadRequest("Company with 'inactive' status"); }
 
             return company is not null ? Ok(company) : BadRequest("Unable to register. There is already a company with this data!");
         }
@@ -32,6 +32,22 @@ namespace ID_backend.Controllers
             var company = await _companyService.GetCompanyByCorporateDocument(corporateDocument);
 
             return company is not null ? Ok(company) : NotFound("Company not found!");
+        }
+        
+        [HttpGet("{companyId}/RequestWithStatus{statusRequest}")]
+        public async Task<ActionResult<CompanyModel>> GetRequestsByStatus(Guid companyId, string statusRequest)
+        {
+            var requests = await _companyService.GetRequestsByStatus(companyId, statusRequest);
+
+            return requests is not null ? Ok(requests) : NotFound($"There is no request with status {statusRequest}");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<CompanyModel>> GetAllCompanies()
+        {
+            var requests = await _companyService.GetAllCompanies();
+
+            return requests is not null ? Ok(requests) : NotFound();
         }
 
         [HttpGet("{corporateEmail}")]
