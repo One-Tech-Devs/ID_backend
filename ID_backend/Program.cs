@@ -21,6 +21,7 @@ builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddScoped<IDataRequestService, DataRequestService>();
 builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<Generator>();
+builder.Services.AddScoped<ILoginService, LoginService>();
 
 var app = builder.Build();
 

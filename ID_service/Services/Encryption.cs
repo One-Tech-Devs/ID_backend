@@ -4,7 +4,7 @@ namespace ID_service.Services
 {
     public class Encryption
     {
-        public static string Encrypt(string data, byte[] key, byte[] iv)
+        public static byte[] Encrypt(string data, byte[] key, byte[] iv)
         {
             byte[] encryptedData;
             using (Aes aes = Aes.Create())
@@ -23,7 +23,7 @@ namespace ID_service.Services
                     }
                 }
             }
-            return encryptedData.ToString();
+            return encryptedData;
         }
 
         public static string Decrypt(byte[] encryptedData, byte[] key, byte[] iv)

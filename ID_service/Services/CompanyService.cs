@@ -3,16 +3,20 @@ using ID_service.Interfaces;
 using ID_model.Models;
 using ID_repository.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
+using Azure.Core;
 
 namespace ID_service.Services
 {
     public class CompanyService : ICompanyService
     {
         private readonly DataContext _context;
+        private readonly Generator _generator;
 
-        public CompanyService(DataContext context)
+        public CompanyService(DataContext context, Generator generator)
         {
             _context = context;
+            _generator = generator;
         }
 
         public async Task<CompanyModel> CreateCompany(CreateCompanyDTO createCompanyRequest)
@@ -21,20 +25,24 @@ namespace ID_service.Services
 
             bool validInfos = await ValidationRegistrationInformation(createCompanyRequest);
 
+            byte[] key = _generator.GenerateKey();
+            byte[] iv = _generator.GenerateIV();
+
             if (validStatus && validInfos)
             {
                 var company = new CompanyModel() 
                 {
                     Id = Guid.NewGuid(),
                     Username = createCompanyRequest.Username,
-                    //Password = Encryption.Encrypt(request.Password, key, iv)
-                    Password = createCompanyRequest.Password,
+                    Password = Encryption.Encrypt(createCompanyRequest.Password, key, iv),
                     Role = "Company",
                     CompanyName = createCompanyRequest.CompanyName,
                     BusinessName = createCompanyRequest.BusinessName,
                     StatusRF = true,
                     CorporateDocument = createCompanyRequest.CorporateDocument,
-                    Email = createCompanyRequest.CorporateEmail
+                    Email = createCompanyRequest.CorporateEmail,
+                    Key = key,
+                    Iv = iv
                 };
 
                 _context.Companies.Add(company);
