@@ -11,5 +11,6 @@ namespace ID_service.Interfaces
         Task<CompanyModel?> GetCompanyByUsername(string username);
         Task<List<DataRequestModel>> GetRequestsByStatus(Guid id, string statusRequest);
         Task<List<CompanyModel>> GetAllCompanies();
+        Task<CompanyModel?> UpdateCompanyAddress(Guid companyId, AddressUpdateDTO request);
     }
 }

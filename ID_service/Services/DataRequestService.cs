@@ -5,6 +5,7 @@ using ID_repository.Data;
 using ID_service.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace ID_service.Services
 {
@@ -108,6 +109,27 @@ namespace ID_service.Services
             };
 
             return DTO;
+        }
+
+        public async Task<List<GetDataRequestDTO>?> GetDataRequestByClient(Guid clientId)
+        {
+            var requests = await _context.DataRequests
+                .Where(r => r.ClientId == clientId)
+                .Select(r => new GetDataRequestDTO
+                {
+                    Id = r.Id,
+                    BusinessName = r.Company.BusinessName,
+                    ClientUsername = r.Client.Username,
+                    RequestCreation = r.RequestCreation,
+                    RequestExpiration = r.RequestExpiration,
+                    Status = r.Status,
+                    ClientData = r.ClientData
+                })
+                .ToListAsync();
+
+            if (requests is null) return null;
+
+            return requests;
         }
     }
 }

@@ -93,6 +93,55 @@ namespace ID_service.Services
             
         }
 
+        public async Task<CompanyModel?> UpdateCompanyAddress(Guid companyId, AddressUpdateDTO request)
+        {
+            var company = await _context.Companies.Include(c => c.Address).FirstOrDefaultAsync(c => c.Id == companyId);
+            if (company is null) return null;
+
+            if (company.Address is null || company.AddressId is null)
+            {
+                company.AddressId = Guid.NewGuid();
+
+                var address = new AddressModel
+                {
+                    Id = company.AddressId.Value,
+                    Country = request.Country,
+                    StateOrProvince = request.StateOrProvince,
+                    CityOrVillage = request.CityOrVillage,
+                    PostalCode = request.PostalCode,
+                    Neighborhood = request.Neighborhood,
+                    Street = request.Street,
+                    Number = request.Number
+                };
+
+                company.Address = address;
+
+                await _context.Addresses.AddAsync(address);
+                _context.Companies.Update(company);
+            }
+            else
+            {
+                var address = await _context.Addresses.FindAsync(company.AddressId);
+
+                address.Country = request.Country;
+                address.StateOrProvince = request.StateOrProvince;
+                address.CityOrVillage = request.CityOrVillage;
+                address.PostalCode = request.PostalCode;
+                address.Neighborhood = request.Neighborhood;
+                address.Street = request.Street;
+                address.Number = request.Number;
+
+                company.Address = address;
+
+                _context.Addresses.Update(address);
+                _context.Companies.Update(company);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return company;
+        }
+
         private async Task<bool> ValidationRegistrationInformation(CreateCompanyDTO createCompanyRequest)
         {
             var corporateDocument = await GetCompanyByCorporateDocument(createCompanyRequest.CorporateDocument);
