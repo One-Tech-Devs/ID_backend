@@ -27,6 +27,14 @@ namespace ID_backend.Controllers
             return company is not null ? Ok(company) : BadRequest("Unable to register. There is already a company with this data!");
         }
 
+        [HttpGet]
+        public async Task<ActionResult<CompanyModel>> GetAllCompanies()
+        {
+            var requests = await _companyService.GetAllCompanies();
+
+            return requests is not null ? Ok(requests) : NotFound();
+        }
+
         [HttpGet("{corporateDocument}")]
         public async Task<ActionResult<CompanyModel>> GetCompanyByCorporateDocument(string corporateDocument)
         {
@@ -43,13 +51,6 @@ namespace ID_backend.Controllers
             return requests is not null ? Ok(requests) : NotFound($"There is no request with status {statusRequest}");
         }
 
-        [HttpGet]
-        public async Task<ActionResult<CompanyModel>> GetAllCompanies()
-        {
-            var requests = await _companyService.GetAllCompanies();
-
-            return requests is not null ? Ok(requests) : NotFound();
-        }
 
         [HttpGet("{corporateEmail}")]
         public async Task<ActionResult<CompanyModel>> GetCompanyByCorporateEmail(string corporateEmail)
@@ -75,7 +76,7 @@ namespace ID_backend.Controllers
             return company is not null ? Ok(company) : NotFound("Company not found!");
         }
 
-        [HttpDelete("{companyId}")]
+        [HttpDelete("deleteById/{companyId}")]
         public async Task<ActionResult<string>> DeleteCompany(Guid companyId)
         {
             await _companyService.DeleteCompany(companyId);
