@@ -3,6 +3,7 @@ using ID_model.Models;
 using ID_repository.Data;
 using ID_service.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace ID_service.Services
 {
@@ -16,13 +17,13 @@ namespace ID_service.Services
             _context = context;
         }
 
-        public async Task<DataRequestModel> CreateDataRequest(DataRequestDTO request)
+        public async Task<DataRequestModel?> CreateDataRequest(DataRequestDTO request)
         {
             var client = await _context.Clients.FirstOrDefaultAsync(c => c.Username == request.ClientUsername);
             var company = await _context.Companies.FirstOrDefaultAsync(c => c.Username == request.CompanyUsername);
 
-            if (client is null) return new DataRequestModel();
-            if (company is null) return new DataRequestModel();
+            if (client is null) return null;
+            if (company is null) return null;
 
             TimeZoneInfo brazilTimeZone = TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time");
             DateTime nowInBrazil = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.Local, brazilTimeZone);
@@ -31,14 +32,16 @@ namespace ID_service.Services
             {
                 Id = Guid.NewGuid(),
                 CompanyId = company.Id,
+                Company = company,
                 ClientId = client.Id,
+                Client = client,
                 RequestCreation = nowInBrazil,
-                RequestExpiration = nowInBrazil,
-                Status = "Pendente",
+                RequestExpiration = request.RequestExpiration,
+                Status = "Pending",
                 ClientData = string.Join(", ", request.ClientData)
             };
 
-            _context.DataRequests.Add(dataRequestModel);
+            await _context.DataRequests.AddAsync(dataRequestModel);
             await _context.SaveChangesAsync();
 
             return dataRequestModel;
@@ -51,13 +54,28 @@ namespace ID_service.Services
             return requests;
         }
 
-        public async Task<DataRequestModel> GetDataRequestById(Guid id)
+        public async Task<DataRequestModel?> GetDataRequestById(Guid id)
         {
            var request = await _context.DataRequests.FindAsync(id);
 
-           if (request is null) return new DataRequestModel();
+           if (request is null) return null;
 
-            return null;
+           return request;
+        }
+        public async Task<DataRequestModel?> ChangeStatusDataRequestById(Guid id, string status)
+        {
+            var request = await _context.DataRequests.FindAsync(id);
+
+            if (request == null){return null;}
+
+            request.Status = status;
+
+            if (request.RequestExpiration < DateTime.Now) request.Status = "Expired";
+
+            _context.DataRequests.Update(request);
+            await _context.SaveChangesAsync();
+
+            return request;
         }
     }
 }
