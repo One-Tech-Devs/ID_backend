@@ -3,8 +3,6 @@ using ID_model.Models;
 using ID_repository.Data;
 using ID_service.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace ID_service.Services
 {
@@ -48,22 +46,33 @@ namespace ID_service.Services
             return dataRequestModel;
         }
 
-        public async Task<List<DataRequestModel>> GetAllDataRequest()
+        public async Task<List<BasicDataRequestInfosDTO>> GetAllDataRequest()
         {
             var requests = await _context.DataRequests.ToListAsync();
 
-            return requests;
+            var responseList = new List<BasicDataRequestInfosDTO>();
+
+            foreach (var request in requests)
+            {
+                var response = TrasnformToDTO(request);
+
+                responseList.Add(response);
+            }            
+
+            return responseList;
         }
 
-        public async Task<DataRequestModel?> GetDataRequestById(Guid id)
+        public async Task<BasicDataRequestInfosDTO?> GetDataRequestById(Guid id)
         {
-           var request = await _context.DataRequests.FindAsync(id);
+            var request = await _context.DataRequests.FindAsync(id);
 
-           if (request is null) return null;
+            if (request is null) return null;
 
-           return request;
+            var response = TrasnformToDTO(request);
+
+            return response;
         }
-        public async Task<DataRequestModel?> ChangeStatusDataRequestById(Guid id, string status)
+        public async Task<BasicDataRequestInfosDTO?> ChangeStatusDataRequestById(Guid id, string status)
         {
             var request = await _context.DataRequests.FindAsync(id);
 
@@ -76,20 +85,40 @@ namespace ID_service.Services
             _context.DataRequests.Update(request);
             await _context.SaveChangesAsync();
 
-            return request;
+            var response = TrasnformToDTO(request);             
+
+            return response;
         }
 
-        public async Task<List<GetDataRequestDTO>?> GetDataRequestByClient(Guid clientId)
+        private static BasicDataRequestInfosDTO? TrasnformToDTO(DataRequestModel? request)
+        {
+            if (request is null) return null;
+
+            var DTO = new BasicDataRequestInfosDTO()
+            {
+                Id = request.Id,
+                CompanyName = request.Company?.CompanyName,
+                ClientId = request.ClientId,
+                ClientData = request.ClientData,
+                RequestCreationDate = request.RequestCreation,
+                RequestExpirationDate = request.RequestExpiration,
+                Status = request.Status,
+            };
+
+            return DTO;
+        }
+
+        public async Task<List<BasicDataRequestInfosDTO?>?> GetDataRequestByClient(Guid clientId)
         {
             var requests = await _context.DataRequests
                 .Where(r => r.ClientId == clientId)
-                .Select(r => new GetDataRequestDTO
+                .Select(r => new BasicDataRequestInfosDTO
                 {
                     Id = r.Id,
-                    BusinessName = r.Company.BusinessName,
-                    ClientUsername = r.Client.Username,
-                    RequestCreation = r.RequestCreation,
-                    RequestExpiration = r.RequestExpiration,
+                    CompanyName = r.Company.CompanyName,
+                    ClientId = r.ClientId,
+                    RequestCreationDate = r.RequestCreation,
+                    RequestExpirationDate = r.RequestExpiration,
                     Status = r.Status,
                     ClientData = r.ClientData
                 })
