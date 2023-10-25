@@ -19,8 +19,10 @@ namespace ID_service.Services
             _generator = generator;
         }
 
-        public async Task<CompanyModel> CreateCompany(CreateCompanyDTO createCompanyRequest)
+        public async Task<CompanyModel?> CreateCompany(CreateCompanyDTO createCompanyRequest)
         {
+            bool validAvailability = await CheckAvailability(createCompanyRequest);
+
             bool validStatus = await ValidateCompanyRegistration(createCompanyRequest.CorporateDocument);
 
             bool validInfos = await ValidationRegistrationInformation(createCompanyRequest);
@@ -28,7 +30,7 @@ namespace ID_service.Services
             byte[] key = _generator.GenerateKey();
             byte[] iv = _generator.GenerateIV();
 
-            if (validStatus && validInfos)
+            if (validStatus && validInfos && validAvailability)
             {
                 var company = new CompanyModel() 
                 {
@@ -51,7 +53,15 @@ namespace ID_service.Services
                 return company;
             }
 
-            return new CompanyModel();
+            return null;
+        }
+
+        private async Task<bool> CheckAvailability(CreateCompanyDTO createCompanyRequest)
+        {
+            var companyUsername = await _context.Companies.FirstOrDefaultAsync(c => c.Username == createCompanyRequest.Username);
+            var companyName = await _context.Companies.FirstOrDefaultAsync(c => c.CompanyName == createCompanyRequest.CompanyName);
+
+            return companyUsername is null && companyName is null;
         }
 
         public async Task<CompanyModel?> GetCompanyByUsername(string username)
@@ -117,5 +127,7 @@ namespace ID_service.Services
             //Realizar validação de status da receita federal 
             return Task.FromResult(corporateDocument is not null);
         }
+
+        
     }
 }
