@@ -156,9 +156,20 @@ namespace ID_service.Services
 
             return client;
         }
-        public async Task<DataRequestModel?> AllowDenyRequest(Guid id, string status)
+        /*public async Task<DataRequestModel?> AllowDenyRequest(Guid id, string status)
         {
             var request = await _context.DataRequests.FindAsync(id);
+            if (request == null){return null;}
+            request.Status = status;
+
+            _context.DataRequests.Update(request);
+            await _context.SaveChangesAsync();
+            return request;
+        }*/
+        public async Task<DataRequestModel?> UpdateStatusRequestByUsername(string username, string status)
+        {
+            var user = await GetClientByUsername(username);
+            var request = await _context.DataRequests.FirstOrDefaultAsync(r => r.ClientId == user.Id);
             if (request == null){return null;}
             request.Status = status;
 
