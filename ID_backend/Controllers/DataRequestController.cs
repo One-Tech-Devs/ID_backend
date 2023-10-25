@@ -48,7 +48,7 @@ namespace ID_backend.Controllers
             return request is not null ? Ok(request) : BadRequest("Data Request not found"); ;
         }
 
-        [HttpGet("{status}")]
+        [HttpGet("status/{status}")]
         public async Task<ActionResult<List<DataRequestModel>>> GetDataRequestByStatus(string status)
         {
             var requests = await _service.GetDataRequestByStatus(status);
