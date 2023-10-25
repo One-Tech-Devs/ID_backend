@@ -3,7 +3,6 @@ using ID_model.Models;
 using ID_repository.Data;
 using ID_service.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Net;
 
 namespace ID_service.Services
 {

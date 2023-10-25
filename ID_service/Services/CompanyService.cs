@@ -2,7 +2,6 @@
 using ID_service.Interfaces;
 using ID_model.Models;
 using ID_repository.Data;
-using Azure.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace ID_service.Services
