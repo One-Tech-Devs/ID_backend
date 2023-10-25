@@ -21,6 +21,7 @@ namespace ID_backend.Controllers
         {
             var company = await _companyService.CreateCompany(request);
 
+            //ToDo - realizar verificação da receita federal
             //if (!company.StatusRF) { return BadRequest("Company with 'inactive' status"); }
 
             return company is not null ? Ok(company) : BadRequest("Unable to register. There is already a company with this data!");

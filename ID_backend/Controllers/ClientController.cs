@@ -1,4 +1,5 @@
 ﻿using ID_model.DTOs;
+using ID_model.Models;
 using ID_service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,23 +16,64 @@ namespace ID_backend.Controllers
             _service = service;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<List<ClientModel>>> GetAllClients()
+        {
+            var clients = await _service.GetAllClients();   
+
+            return Ok(clients);
+        }
+
+        [HttpGet("{clientId}")]
+        public async Task<ActionResult<ClientModel>> GetClientById(Guid clientId)
+        {
+            var client = await _service.GetClientById(clientId);   
+
+            return  client is not null ? Ok(client) : BadRequest("Client not found!");
+        }
+        [HttpGet("ClientByUsername")]
+        public async Task<ActionResult<ClientModel>> GetClientByUsername(string username)
+        {
+            var client = await _service.GetClientByUsername(username);   
+
+            return  client is not null ? Ok(client) : BadRequest("Client not found!");
+        }
+
+        [HttpGet("ClientByEmail")]
+        public async Task<ActionResult<ClientModel>> GetClientByEmail(string email)
+        {
+            var client = await _service.GetClientByEmail(email);   
+
+            return  client is not null ? Ok(client) : BadRequest("Client not found!");
+        }
+
+        [HttpGet("ClientBySSN")]
+        public async Task<ActionResult<ClientModel>> GetClientBySSN(string ssn)
+        {
+            var client = await _service.GetClientBySSN(ssn);   
+
+            return  client is not null ? Ok(client) : BadRequest("Client not found!");
+        }
+
         [HttpPost]
         public async Task<ActionResult> CreateClient(ClientCreateDTO request)
         {
-            await _service.CreateClient(request);
-            return Ok(request);
+            var client = await _service.CreateClient(request);
+
+            return client is not null ? Ok(client) : BadRequest("Unable to create client, check the information provided!");
         }
-        [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateClient(Guid id, ClientUpdateDTO request)
+        [HttpPut("ClientUpdate/{idClient}")]
+        public async Task<ActionResult> UpdateClient(Guid idClient, ClientUpdateDTO request)
         {
-            await _service.UpdateClientBasicData(id, request);
-            return Ok("Dados atualizados com sucesso");
+            var client = await _service.UpdateClientBasicData(idClient, request);
+            return client is not null ? Ok(client) : BadRequest("Unable to update client infos, client not found!");
         }
-        [HttpPut("endereco/{id}")]
-        public async Task<ActionResult> UpdateAddressClient(Guid idClient, AddressUpdateDTO request)
+        [HttpPut("AddressUpdate/{idClient}")]
+        public async Task<ActionResult<ClientModel?>> UpdateAddressClient(AddressUpdateDTO request, Guid idClient)
         {
-            await _service.UpdateAddress(idClient, request);
-            return Ok("Endereço atualizado com sucesso");
+            var clientUpdateAddress = await _service.UpdateAddress(idClient, request);
+
+            return clientUpdateAddress is not null ? Ok(clientUpdateAddress) : BadRequest("Unable to update address client, client not found!");
         }
     }
 }
