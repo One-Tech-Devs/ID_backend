@@ -8,5 +8,7 @@ namespace ID_service.Interfaces
         Task<DataRequestModel> CreateDataRequest(DataRequestDTO request);
         Task<DataRequestModel> GetDataRequestById(Guid id);
         Task<List<DataRequestModel>> GetAllDataRequest();
+        Task<DataRequestModel?> ChangeStatusDataRequestById(Guid id, string status);
+
     }
 }

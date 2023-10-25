@@ -2,9 +2,9 @@
 {
     public class DataRequestDTO
     {
-        public string CompanyUsername { get; set; }
-        public string ClientUsername { get; set; }
-        public DateTime RequestExpiration { get; set; }
-        public string[] ClientData { get; set; }
+        public required string CompanyUsername { get; set; }
+        public required string ClientUsername { get; set; }
+        public required DateTime RequestExpiration { get; set; }
+        public required string[] ClientData { get; set; }
     }
 }

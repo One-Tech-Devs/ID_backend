@@ -38,5 +38,13 @@ namespace ID_backend.Controllers
             if (request is null) return BadRequest("Client/Company not found");
             return Ok(request);
         }
+
+        [HttpPut("ChangeStatusRequestById")]
+        public async Task<ActionResult<DataRequestModel>> ChangeStatusDataRequestById(Guid requestId, string status)
+        {
+            var request = await _service.ChangeStatusDataRequestById(requestId, status);
+
+            return request is not null ? Ok(request) : BadRequest("Data Request not found"); ;
+        }
     }
 }

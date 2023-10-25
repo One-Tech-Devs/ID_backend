@@ -3,6 +3,7 @@ using ID_model.Models;
 using ID_repository.Data;
 using ID_service.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace ID_service.Services
 {
@@ -31,14 +32,16 @@ namespace ID_service.Services
             {
                 Id = Guid.NewGuid(),
                 CompanyId = company.Id,
+                Company = company,
                 ClientId = client.Id,
+                Client = client,
                 RequestCreation = nowInBrazil,
-                RequestExpiration = nowInBrazil,
-                Status = "Pendente",
+                RequestExpiration = request.RequestExpiration,
+                Status = "Pending",
                 ClientData = string.Join(", ", request.ClientData)
             };
 
-            _context.DataRequests.Add(dataRequestModel);
+            await _context.DataRequests.AddAsync(dataRequestModel);
             await _context.SaveChangesAsync();
 
             return dataRequestModel;
@@ -58,6 +61,21 @@ namespace ID_service.Services
            if (request is null) return new DataRequestModel();
 
             return null;
+        }
+        public async Task<DataRequestModel?> ChangeStatusDataRequestById(Guid id, string status)
+        {
+            var request = await _context.DataRequests.FindAsync(id);
+
+            if (request == null){return null;}
+
+            request.Status = status;
+
+            if (request.RequestExpiration < DateTime.Now) request.Status = "Expired";
+
+            _context.DataRequests.Update(request);
+            await _context.SaveChangesAsync();
+
+            return request;
         }
     }
 }

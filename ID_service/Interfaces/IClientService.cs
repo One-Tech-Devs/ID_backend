@@ -15,7 +15,6 @@ namespace ID_service.Interfaces
         Task<ClientModel?> UpdateAddress(Guid idClient, AddressUpdateDTO request);
         Task<List<ClientModel>> GetAllClients();
         Task<ClientModel> GetClientById(Guid clientId);
-        Task<DataRequestModel?> UpdateStatusRequestByUsername(string username, string status);
-        //Task<DataRequestModel?> AllowDenyRequest(Guid id, string status);
+        Task<DataRequestModel?> UpdateStatusRequestByUsername(string username, Guid requestId, string status);
     }
 }

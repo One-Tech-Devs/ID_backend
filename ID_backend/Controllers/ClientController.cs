@@ -77,10 +77,10 @@ namespace ID_backend.Controllers
             return clientUpdateAddress is not null ? Ok(clientUpdateAddress) : BadRequest("Unable to update address client, client not found!");
         }
 
-        [HttpPut("{username}")]
-        public async Task<ActionResult<DataRequestModel?>> UpdateStatusRequestByUsername(string username, string status)
+        [HttpPut("UpdateStatusRequestByUsername/{username}")]
+        public async Task<ActionResult<DataRequestModel?>> UpdateStatusRequestByUsername(string username, Guid requestId, string status)
         {
-           var request = await _service.UpdateStatusRequestByUsername(username, status);
+           var request = await _service.UpdateStatusRequestByUsername(username, requestId, status);
            return request is not null? Ok(request) : BadRequest("Unable to update status");
         }
     }

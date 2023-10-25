@@ -34,8 +34,7 @@ namespace ID_service.Services
         public async Task<ClientModel?> GetClientByUsername(string username)
         {
             var client = await _context.Clients.Include(c => c.Address)
-                .FirstOrDefaultAsync(c => c.Username == username)
-                ?? throw new Exception("Client Not Found");
+                .FirstOrDefaultAsync(c => c.Username == username);
 
             return client is not null ? client : null;
         }
@@ -114,7 +113,7 @@ namespace ID_service.Services
 
                 client.Address = address;
 
-                _context.Addresses.AddAsync(address);
+                await _context.Addresses.AddAsync(address);
                 _context.Clients.Update(client);
             }
             else
@@ -156,25 +155,22 @@ namespace ID_service.Services
 
             return client;
         }
-        /*public async Task<DataRequestModel?> AllowDenyRequest(Guid id, string status)
+        
+        public async Task<DataRequestModel?> UpdateStatusRequestByUsername(string username, Guid requestId, string status)
         {
-            var request = await _context.DataRequests.FindAsync(id);
+            var client = await GetClientByUsername(username);
+
+            var request = await _context.DataRequests.FirstOrDefaultAsync(r => r.ClientId == client.Id && r.Id == requestId);
+
             if (request == null){return null;}
+
             request.Status = status;
+            
+            if (request.RequestExpiration < DateTime.Now) request.Status = "Expired";
 
             _context.DataRequests.Update(request);
             await _context.SaveChangesAsync();
-            return request;
-        }*/
-        public async Task<DataRequestModel?> UpdateStatusRequestByUsername(string username, string status)
-        {
-            var user = await GetClientByUsername(username);
-            var request = await _context.DataRequests.FirstOrDefaultAsync(r => r.ClientId == user.Id);
-            if (request == null){return null;}
-            request.Status = status;
 
-            _context.DataRequests.Update(request);
-            await _context.SaveChangesAsync();
             return request;
         }
     }
