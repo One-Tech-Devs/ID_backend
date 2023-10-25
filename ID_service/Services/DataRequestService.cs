@@ -130,11 +130,34 @@ namespace ID_service.Services
             return requests;
         }
 
-        public async Task<List<DataRequestModel>> GetDataRequestByStatus(string status)
+        public async Task<List<BasicDataRequestInfosDTO>> GetDataRequestByStatus(string status)
         {
             var dataRequest = await _context.DataRequests.Where(d => d.Status == status).ToListAsync();
-            if(dataRequest == null) { return null; }
-            return dataRequest;
+            if(dataRequest is null) { return null; }
+
+            var responseList = new List<BasicDataRequestInfosDTO>();
+
+            foreach (var request in dataRequest)
+            {
+                var response = TrasnformToDTO(request);
+
+                responseList.Add(response);
+            }
+
+            return responseList;
+        }
+
+        public async Task<List<BasicDataRequestInfosDTO?>?> GetDataRequestByClientStatus(Guid clientId, string status)
+        {
+            var request = await GetDataRequestByClient(clientId);
+
+            if (request is null) return null;
+
+            var responseList = request.Where(r => r.Status == status).ToList();
+
+            if(responseList is null) return null;
+
+            return responseList;
         }
     }
 }
