@@ -3,6 +3,7 @@ using ID_model.Models;
 using ID_repository.Data;
 using ID_service.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace ID_service.Services
 {
@@ -87,6 +88,7 @@ namespace ID_service.Services
         public async Task DeleteClient(Guid id)
         {
             var client = await GetClientById(id);
+            _context.Addresses.Remove(client.Address);
             _context.Clients.Remove(client);
             await _context.SaveChangesAsync();
         }

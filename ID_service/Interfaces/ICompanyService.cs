@@ -13,5 +13,6 @@ namespace ID_service.Interfaces
         Task<List<CompanyModel>> GetAllCompanies();
         Task<CompanyModel?> UpdateCompanyAddress(Guid companyId, AddressUpdateDTO request);
         Task DeleteCompany(Guid companyId);
+        Task<CompanyModel?> GetCompanyById(Guid companyId);
     }
 }

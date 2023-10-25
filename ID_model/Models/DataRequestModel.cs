@@ -3,7 +3,7 @@
     public class DataRequestModel
     {
         public Guid Id { get; set; }
-        public Guid CompanyId { get; set; }
+        public Guid? CompanyId { get; set; }
         public CompanyModel Company { get; set; }
         public Guid ClientId { get; set; }
         public ClientModel Client { get; set; }
