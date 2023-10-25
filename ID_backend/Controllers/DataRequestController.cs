@@ -44,20 +44,18 @@ namespace ID_backend.Controllers
         public async Task<ActionResult<BasicDataRequestInfosDTO>> ChangeStatusDataRequestById(Guid requestId, string status)
         {
             var request = await _service.ChangeStatusDataRequestById(requestId, status);
-
             return request is not null ? Ok(request) : BadRequest("Data Request not found"); ;
         }
 
-        [HttpGet("Client/{clientId}")]
+        [HttpGet("client/{clientId}")]
         public async Task<ActionResult<List<BasicDataRequestInfosDTO>>> GetDataRequestByClient(Guid clientId)
         {
             var requests = await _service.GetDataRequestByClient(clientId);
-
             return requests is not null ? Ok(requests) : BadRequest("Data Request not found");
         }
 
         [HttpGet("status/{status}")]
-        public async Task<ActionResult<List<DataRequestModel>>> GetDataRequestByStatus(string status)
+        public async Task<ActionResult<List<BasicDataRequestInfosDTO>>> GetDataRequestByStatus(string status)
         {
             var requests = await _service.GetDataRequestByStatus(status);
             return requests is not null ? Ok(requests) : BadRequest("Data Requests not found"); ;

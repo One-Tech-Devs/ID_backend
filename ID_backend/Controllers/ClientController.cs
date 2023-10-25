@@ -83,5 +83,12 @@ namespace ID_backend.Controllers
            var request = await _service.UpdateStatusRequestByUsername(username, requestId, status);
            return request is not null? Ok(request) : BadRequest("Unable to update status");
         }
+
+        [HttpGet("{clientId}/requests/{status}")]
+        public async Task<ActionResult<List<BasicDataRequestInfosDTO>>> GetDataRequestByClientAndStatus(Guid clientId, string status)
+        {
+            var requests = await _service.GetDataRequestsByClientAndStatus(clientId, status);
+            return requests is not null ? Ok(requests) : BadRequest("Data Requests not found");
+        }
     }
 }

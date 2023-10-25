@@ -78,7 +78,7 @@ namespace ID_service.Services
         }
         public async Task<List<CompanyModel>> GetAllCompanies()
         {
-            var companies = await _context.Companies.ToListAsync();
+            var companies = await _context.Companies.Include(c => c.Address).ToListAsync();
 
             return companies;
             

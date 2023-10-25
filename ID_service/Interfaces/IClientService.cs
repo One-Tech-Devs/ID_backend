@@ -15,5 +15,6 @@ namespace ID_service.Interfaces
         Task<List<ClientModel>> GetAllClients();
         Task<ClientModel> GetClientById(Guid clientId);
         Task<DataRequestModel?> UpdateStatusRequestByUsername(string username, Guid requestId, string status);
+        Task<List<BasicDataRequestInfosDTO?>?> GetDataRequestsByClientAndStatus(Guid clientId, string status);
     }
 }

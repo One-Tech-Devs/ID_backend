@@ -176,5 +176,35 @@ namespace ID_service.Services
 
             return request;
         }
+
+        public async Task<List<BasicDataRequestInfosDTO?>?> GetDataRequestsByClientAndStatus(Guid clientId, string status)
+        {
+            var requests = await _context.DataRequests.Where(r => r.ClientId == clientId && r.Status == status).ToListAsync();
+
+            if (requests is null) return null;
+
+            var responseList = new List<BasicDataRequestInfosDTO>();
+
+            foreach (var request in requests)
+            {
+                if (request is not null)
+                {
+                    var DTO = new BasicDataRequestInfosDTO()
+                    {
+                        Id = request.Id,
+                        CompanyName = request.Company?.CompanyName,
+                        ClientId = request.ClientId,
+                        ClientData = request.ClientData,
+                        RequestCreationDate = request.RequestCreation,
+                        RequestExpirationDate = request.RequestExpiration,
+                        Status = request.Status,
+                    };
+
+                    responseList.Add(DTO);
+                }
+            }
+
+            return responseList;
+        }
     }
 }
