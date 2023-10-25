@@ -111,17 +111,17 @@ namespace ID_service.Services
             return DTO;
         }
 
-        public async Task<List<GetDataRequestDTO>?> GetDataRequestByClient(Guid clientId)
+        public async Task<List<BasicDataRequestInfosDTO?>?> GetDataRequestByClient(Guid clientId)
         {
             var requests = await _context.DataRequests
                 .Where(r => r.ClientId == clientId)
-                .Select(r => new GetDataRequestDTO
+                .Select(r => new BasicDataRequestInfosDTO
                 {
                     Id = r.Id,
-                    BusinessName = r.Company.BusinessName,
-                    ClientUsername = r.Client.Username,
-                    RequestCreation = r.RequestCreation,
-                    RequestExpiration = r.RequestExpiration,
+                    CompanyName = r.Company.CompanyName,
+                    ClientId = r.ClientId,
+                    RequestCreationDate = r.RequestCreation,
+                    RequestExpirationDate = r.RequestExpiration,
                     Status = r.Status,
                     ClientData = r.ClientData
                 })
