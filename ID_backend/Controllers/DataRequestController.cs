@@ -60,12 +60,5 @@ namespace ID_backend.Controllers
             var requests = await _service.GetDataRequestByStatus(status);
             return requests is not null ? Ok(requests) : BadRequest("Data Requests not found"); ;
         }
-
-        [HttpGet("client/{clientId}/requests/{status}")]
-        public async Task<ActionResult<List<BasicDataRequestInfosDTO>>> GetDataRequestByClientAndStatus(Guid clientId, string status)
-        {
-            var requests = await _service.GetDataRequestByClientStatus(clientId, status);
-            return requests is not null ? Ok(requests) : BadRequest("Data Requests not found");
-        }
     }
 }

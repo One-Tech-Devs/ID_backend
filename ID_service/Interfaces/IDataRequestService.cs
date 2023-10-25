@@ -11,7 +11,6 @@ namespace ID_service.Interfaces
         Task<BasicDataRequestInfosDTO?> ChangeStatusDataRequestById(Guid id, string status);
         Task<List<BasicDataRequestInfosDTO?>?> GetDataRequestByClient(Guid clientId);
         Task<List<BasicDataRequestInfosDTO>> GetDataRequestByStatus(string status);
-        Task<List<BasicDataRequestInfosDTO?>?> GetDataRequestByClientStatus(Guid clientId, string status);
 
     }
 }

@@ -146,18 +146,5 @@ namespace ID_service.Services
 
             return responseList;
         }
-
-        public async Task<List<BasicDataRequestInfosDTO?>?> GetDataRequestByClientStatus(Guid clientId, string status)
-        {
-            var request = await GetDataRequestByClient(clientId);
-
-            if (request is null) return null;
-
-            var responseList = request.Where(r => r.Status == status).ToList();
-
-            if(responseList is null) return null;
-
-            return responseList;
-        }
     }
 }
