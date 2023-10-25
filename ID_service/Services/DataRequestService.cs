@@ -58,9 +58,9 @@ namespace ID_service.Services
         {
            var request = await _context.DataRequests.FindAsync(id);
 
-           if (request is null) return new DataRequestModel();
+           if (request is null) return null;
 
-            return null;
+           return request;
         }
         public async Task<DataRequestModel?> ChangeStatusDataRequestById(Guid id, string status)
         {
