@@ -1,4 +1,5 @@
-﻿using ID_model.DTOs;
+﻿using Azure.Core;
+using ID_model.DTOs;
 using ID_model.Models;
 using ID_repository.Data;
 using ID_service.Interfaces;
@@ -76,6 +77,13 @@ namespace ID_service.Services
             await _context.SaveChangesAsync();
 
             return request;
+        }
+
+        public async Task<List<DataRequestModel>> GetDataRequestByStatus(string status)
+        {
+            var dataRequest = await _context.DataRequests.Where(d => d.Status == status).ToListAsync();
+            if(dataRequest == null) { return null; }
+            return dataRequest;
         }
     }
 }

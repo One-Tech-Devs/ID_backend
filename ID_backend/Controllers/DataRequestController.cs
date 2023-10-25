@@ -1,4 +1,5 @@
-﻿using ID_model.DTOs;
+﻿using Azure.Core;
+using ID_model.DTOs;
 using ID_model.Models;
 using ID_service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -45,6 +46,13 @@ namespace ID_backend.Controllers
             var request = await _service.ChangeStatusDataRequestById(requestId, status);
 
             return request is not null ? Ok(request) : BadRequest("Data Request not found"); ;
+        }
+
+        [HttpGet("{status}")]
+        public async Task<ActionResult<List<DataRequestModel>>> GetDataRequestByStatus(string status)
+        {
+            var requests = await _service.GetDataRequestByStatus(status);
+            return requests is not null ? Ok(requests) : BadRequest("Data Requests not found"); ;
         }
     }
 }
