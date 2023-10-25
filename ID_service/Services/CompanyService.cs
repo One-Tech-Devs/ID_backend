@@ -56,13 +56,6 @@ namespace ID_service.Services
             return null;
         }
 
-        private async Task<bool> CheckAvailability(CreateCompanyDTO createCompanyRequest)
-        {
-            var companyUsername = await _context.Companies.FirstOrDefaultAsync(c => c.Username == createCompanyRequest.Username);
-            var companyName = await _context.Companies.FirstOrDefaultAsync(c => c.CompanyName == createCompanyRequest.CompanyName);
-
-            return companyUsername is null && companyName is null;
-        }
 
         public async Task<CompanyModel?> GetCompanyByUsername(string username)
         {
@@ -128,6 +121,14 @@ namespace ID_service.Services
             return Task.FromResult(corporateDocument is not null);
         }
 
-        
+        private async Task<bool> CheckAvailability(CreateCompanyDTO createCompanyRequest)
+        {
+            var companyUsername = await _context.Companies.FirstOrDefaultAsync(c => c.Username == createCompanyRequest.Username);
+            var companyName = await _context.Companies.FirstOrDefaultAsync(c => c.CompanyName == createCompanyRequest.CompanyName);
+
+            return companyUsername is null && companyName is null;
+        }
+
+
     }
 }
