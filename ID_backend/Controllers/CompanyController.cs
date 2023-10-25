@@ -35,7 +35,7 @@ namespace ID_backend.Controllers
             return company is not null ? Ok(company) : NotFound("Company not found!");
         }
         
-        [HttpGet("{companyId}/RequestWithStatus{statusRequest}")]
+        [HttpGet("{companyId}/requests/{statusRequest}")]
         public async Task<ActionResult<CompanyModel>> GetRequestsByStatus(Guid companyId, string statusRequest)
         {
             var requests = await _companyService.GetRequestsByStatus(companyId, statusRequest);
@@ -73,6 +73,13 @@ namespace ID_backend.Controllers
             var company = await _companyService.UpdateCompanyAddress(companyId, request);
 
             return company is not null ? Ok(company) : NotFound("Company not found!");
+        }
+
+        [HttpDelete("{companyId}")]
+        public async Task<ActionResult<string>> DeleteCompany(Guid companyId)
+        {
+            await _companyService.DeleteCompany(companyId);
+            return Ok("Company deleted successfully!");
         }
     }
 }

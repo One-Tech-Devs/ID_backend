@@ -176,6 +176,11 @@ namespace ID_service.Services
             return companyUsername is null && companyName is null;
         }
 
-
+        public async Task DeleteCompany(Guid companyId)
+        {
+            var company = await _context.Companies.FirstOrDefaultAsync(c => c.Id == companyId);
+            _context.Companies.Remove(company);
+            await _context.SaveChangesAsync();
+        }
     }
 }

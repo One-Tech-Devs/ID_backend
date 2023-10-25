@@ -90,5 +90,12 @@ namespace ID_backend.Controllers
             var requests = await _service.GetDataRequestsByClientAndStatus(clientId, status);
             return requests is not null ? Ok(requests) : BadRequest("Data Requests not found");
         }
+
+        [HttpDelete("{clientId}")]
+        public async Task<ActionResult<string>> DeleteClient(Guid clientId)
+        {
+            await _service.DeleteClient(clientId);
+            return Ok("Client deleted successfully!");
+        }
     }
 }
