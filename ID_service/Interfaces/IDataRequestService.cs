@@ -9,6 +9,7 @@ namespace ID_service.Interfaces
         Task<BasicDataRequestInfosDTO> GetDataRequestById(Guid id);
         Task<List<BasicDataRequestInfosDTO>> GetAllDataRequest();
         Task<BasicDataRequestInfosDTO?> ChangeStatusDataRequestById(Guid id, string status);
+        Task<List<BasicDataRequestInfosDTO?>?> GetDataRequestByClient(Guid clientId);
         Task<List<DataRequestModel>> GetDataRequestByStatus(string status);
 
     }
