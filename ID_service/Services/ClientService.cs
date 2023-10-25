@@ -156,7 +156,7 @@ namespace ID_service.Services
 
             return client;
         }
-        public async Task<DataRequestModel?> AllowDenyrequest(Guid id, string status)
+        public async Task<DataRequestModel?> AllowDenyRequest(Guid id, string status)
         {
             var request = await _context.DataRequests.FindAsync(id);
             if (request == null){return null;}
