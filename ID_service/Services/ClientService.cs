@@ -156,5 +156,15 @@ namespace ID_service.Services
 
             return client;
         }
+        public async Task<DataRequestModel?> AllowDenyrequest(Guid id, string status)
+        {
+            var request = await _context.DataRequests.FindAsync(id);
+            if (request == null){return null;}
+            request.Status = status;
+
+            _context.DataRequests.Update(request);
+            await _context.SaveChangesAsync();
+            return request;
+        }
     }
 }

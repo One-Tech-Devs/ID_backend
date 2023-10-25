@@ -76,5 +76,12 @@ namespace ID_backend.Controllers
 
             return clientUpdateAddress is not null ? Ok(clientUpdateAddress) : BadRequest("Unable to update address client, client not found!");
         }
+
+        [HttpPost]
+        public async Task<ActionResult<DataRequestModel?>> AllowDenyRequest(Guid id, string status)
+        {
+            var request = await _service.AllowDenyRequest(id, status);
+            return request is not null? Ok(request) : BadRequest("Unable to update status");
+        }
     }
 }

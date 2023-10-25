@@ -1,5 +1,6 @@
 ﻿using ID_model.DTOs;
 using ID_model.Models;
+using System.Threading.Tasks;
 
 namespace ID_service.Interfaces
 {
@@ -14,5 +15,6 @@ namespace ID_service.Interfaces
         Task<ClientModel?> UpdateAddress(Guid idClient, AddressUpdateDTO request);
         Task<List<ClientModel>> GetAllClients();
         Task<ClientModel> GetClientById(Guid clientId);
+        Task<DataRequestModel?> AllowDenyRequest(Guid id, string status);
     }
 }
