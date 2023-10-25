@@ -36,15 +36,18 @@ namespace ID_repository.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SocialName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SSN = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NIC = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SecurityPhrase = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SecurityPhrase = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     Role = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AddressId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    AddressId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Key = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    Iv = table.Column<byte[]>(type: "varbinary(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -70,7 +73,9 @@ namespace ID_repository.Migrations
                     Role = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AddressId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    AddressId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Key = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    Iv = table.Column<byte[]>(type: "varbinary(max)", nullable: false)
                 },
                 constraints: table =>
                 {
