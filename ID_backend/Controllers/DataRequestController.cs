@@ -18,17 +18,17 @@ namespace ID_backend.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<DataRequestModel>>> GetAllDataRequest()
+        public async Task<ActionResult<List<BasicDataRequestInfosDTO>>> GetAllDataRequest()
         {
             var requests = await _service.GetAllDataRequest();
             return Ok(requests);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<DataRequestModel>> GetDataRequestById(Guid id)
+        public async Task<ActionResult<BasicDataRequestInfosDTO>> GetDataRequestById(Guid id)
         {
             var request = await _service.GetDataRequestById(id);
-            if (request is null) return BadRequest("Client not found");
+            if (request is null) return BadRequest("Request not found");
             return Ok(request);
         }
 
@@ -41,7 +41,7 @@ namespace ID_backend.Controllers
         }
 
         [HttpPut("ChangeStatusRequestById")]
-        public async Task<ActionResult<DataRequestModel>> ChangeStatusDataRequestById(Guid requestId, string status)
+        public async Task<ActionResult<BasicDataRequestInfosDTO>> ChangeStatusDataRequestById(Guid requestId, string status)
         {
             var request = await _service.ChangeStatusDataRequestById(requestId, status);
 
@@ -49,9 +49,9 @@ namespace ID_backend.Controllers
         }
 
         [HttpGet("Client/{clientId}")]
-        public async Task<ActionResult<List<GetDataRequestDTO>>> GetDataRequestByClient(Guid clientId)
+        public async Task<ActionResult<List<BasicDataRequestInfosDTO>>> GetDataRequestByClient(Guid clientId)
         {
-            var requests = await _service.GetDataRequestByClient(clientId);
+            var requests = await _service.GetDataRequestById(clientId);
 
             return requests is not null ? Ok(requests) : BadRequest("Data Request not found");
         }

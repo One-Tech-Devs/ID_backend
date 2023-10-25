@@ -10,6 +10,6 @@
         public DateTime RequestCreation { get; set; }
         public DateTime RequestExpiration { get; set; }
         public string Status { get; set; }
-        public string ClientData { get; set; } // TO DO: Decidir como receber checklist de dados
+        public string ClientData { get; set; } 
     }
 }

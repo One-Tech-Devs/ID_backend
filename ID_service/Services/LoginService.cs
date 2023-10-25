@@ -2,18 +2,11 @@
 using ID_model.Models;
 using ID_repository.Data;
 using ID_service.Interfaces;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Reflection.Emit;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ID_service.Services
 {
