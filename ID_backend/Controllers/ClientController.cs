@@ -66,6 +66,7 @@ namespace ID_backend.Controllers
         public async Task<ActionResult> UpdateClient(Guid idClient, ClientUpdateDTO request)
         {
             var client = await _service.UpdateClientBasicData(idClient, request);
+
             return client is not null ? Ok(client) : BadRequest("Unable to update client infos, client not found!");
         }
         [HttpPut("AddressUpdate/{idClient}")]
