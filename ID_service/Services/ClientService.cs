@@ -72,7 +72,9 @@ namespace ID_service.Services
                 SecurityPhrase = request.SecurityPhrase,
                 Email = request.Email,
                 SSN = request.SSN,
-                NIC = request.NIC
+                NIC = request.NIC,
+                Key = key,
+                Iv = iv
             };
 
             await _context.Clients.AddAsync(client);
