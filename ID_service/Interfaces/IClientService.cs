@@ -1,6 +1,5 @@
 ﻿using ID_model.DTOs;
 using ID_model.Models;
-using System.Threading.Tasks;
 
 namespace ID_service.Interfaces
 {

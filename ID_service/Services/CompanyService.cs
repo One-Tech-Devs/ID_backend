@@ -3,8 +3,6 @@ using ID_service.Interfaces;
 using ID_model.Models;
 using ID_repository.Data;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
-using Azure.Core;
 
 namespace ID_service.Services
 {
