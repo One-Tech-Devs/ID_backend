@@ -46,5 +46,13 @@ namespace ID_backend.Controllers
 
             return request is not null ? Ok(request) : BadRequest("Data Request not found"); ;
         }
+
+        [HttpGet("Client/{clientId}")]
+        public async Task<ActionResult<List<GetDataRequestDTO>>> GetDataRequestByClient(Guid clientId)
+        {
+            var requests = await _service.GetDataRequestByClient(clientId);
+
+            return requests is not null ? Ok(requests) : BadRequest("Data Request not found");
+        }
     }
 }
