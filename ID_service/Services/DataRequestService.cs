@@ -17,13 +17,13 @@ namespace ID_service.Services
             _context = context;
         }
 
-        public async Task<DataRequestModel> CreateDataRequest(DataRequestDTO request)
+        public async Task<DataRequestModel?> CreateDataRequest(DataRequestDTO request)
         {
             var client = await _context.Clients.FirstOrDefaultAsync(c => c.Username == request.ClientUsername);
             var company = await _context.Companies.FirstOrDefaultAsync(c => c.Username == request.CompanyUsername);
 
-            if (client is null) return new DataRequestModel();
-            if (company is null) return new DataRequestModel();
+            if (client is null) return null;
+            if (company is null) return null;
 
             TimeZoneInfo brazilTimeZone = TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time");
             DateTime nowInBrazil = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.Local, brazilTimeZone);
@@ -54,7 +54,7 @@ namespace ID_service.Services
             return requests;
         }
 
-        public async Task<DataRequestModel> GetDataRequestById(Guid id)
+        public async Task<DataRequestModel?> GetDataRequestById(Guid id)
         {
            var request = await _context.DataRequests.FindAsync(id);
 
