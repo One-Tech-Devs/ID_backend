@@ -67,7 +67,7 @@ namespace ID_backend.Controllers
             return company is not null ? Ok(company) : NotFound("Company not found!");
         }
 
-        [HttpPost("{companyId}/Address")]
+        [HttpPut("{companyId}/Address")]
         public async Task<ActionResult<CompanyModel>> UpdateCompanyAddress(Guid companyId, AddressUpdateDTO request)
         {
             var company = await _companyService.UpdateCompanyAddress(companyId, request);
