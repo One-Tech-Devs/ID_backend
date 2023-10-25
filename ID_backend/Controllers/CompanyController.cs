@@ -21,7 +21,7 @@ namespace ID_backend.Controllers
         {
             var company = await _companyService.CreateCompany(request);
 
-            if (!company.StatusRF) { return BadRequest("Company with 'inactive' status"); }
+            //if (!company.StatusRF) { return BadRequest("Company with 'inactive' status"); }
 
             return company is not null ? Ok(company) : BadRequest("Unable to register. There is already a company with this data!");
         }
