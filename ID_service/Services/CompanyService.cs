@@ -2,7 +2,6 @@
 using ID_service.Interfaces;
 using ID_model.Models;
 using ID_repository.Data;
-using Azure.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace ID_service.Services
@@ -66,6 +65,20 @@ namespace ID_service.Services
             var company = await _context.Companies.FirstOrDefaultAsync(c => c.CorporateDocument == corporateDocument);
 
             return company is not null ? company : null;
+            
+        }
+        public async Task<List<CompanyModel>> GetAllCompanies()
+        {
+            var companies = await _context.Companies.ToListAsync();
+
+            return companies;
+            
+        }
+        public async Task<List<DataRequestModel>> GetRequestsByStatus(Guid id, string statusRequest)
+        {
+            var requests = await _context.DataRequests.Where(r => r.CompanyId == id && r.Status == statusRequest).ToListAsync();
+
+            return requests;
             
         }
 

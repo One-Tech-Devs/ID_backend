@@ -9,5 +9,7 @@ namespace ID_service.Interfaces
         Task<CompanyModel?> GetCompanyByCorporateDocument(string corporateDocument);
         Task<CompanyModel?> GetCompanyByEmail(string corporateEmail);
         Task<CompanyModel?> GetCompanyByUsername(string username);
+        Task<List<DataRequestModel>> GetRequestsByStatus(Guid id, string statusRequest);
+        Task<List<CompanyModel>> GetAllCompanies();
     }
 }

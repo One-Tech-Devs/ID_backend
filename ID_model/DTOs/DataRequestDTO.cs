@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ID_model.DTOs
+﻿namespace ID_model.DTOs
 {
     public class DataRequestDTO
     {
-        public Guid CompanyId { get; set; }
-        public Guid ClientId { get; set; }
+        public string CompanyUsername { get; set; }
+        public string ClientUsername { get; set; }
         public DateTime RequestExpiration { get; set; }
         public string[] ClientData { get; set; }
     }
