@@ -16,29 +16,26 @@ namespace ID_repository.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Relação entre UserModel e AddressModel
             modelBuilder.Entity<ClientModel>()
                 .HasOne(u => u.Address)
                 .WithMany()
                 .HasForeignKey(u => u.AddressId);
-            
+
             modelBuilder.Entity<CompanyModel>()
                 .HasOne(u => u.Address)
                 .WithMany()
                 .HasForeignKey(u => u.AddressId);
 
-            // Relação entre DataRequestModel e ClientModel
             modelBuilder.Entity<DataRequestModel>()
                 .HasOne(d => d.Client)
                 .WithMany()
                 .HasForeignKey(d => d.ClientId);
 
-            // Relação entre DataRequestModel e CompanyModel
             modelBuilder.Entity<DataRequestModel>()
                 .HasOne(d => d.Company)
                 .WithMany()
                 .HasForeignKey(d => d.CompanyId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

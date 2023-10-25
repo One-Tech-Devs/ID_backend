@@ -87,9 +87,9 @@ namespace ID_service.Services
         public async Task DeleteClient(Guid id)
         {
             var client = await GetClientById(id);
+            _context.Addresses.Remove(client.Address);
             _context.Clients.Remove(client);
             await _context.SaveChangesAsync();
-
         }
 
         public async Task<ClientModel?> UpdateAddress(Guid idClient, AddressUpdateDTO request)

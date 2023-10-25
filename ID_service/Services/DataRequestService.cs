@@ -1,4 +1,3 @@
-using Azure.Core;
 using ID_model.DTOs;
 using ID_model.Models;
 using ID_repository.Data;

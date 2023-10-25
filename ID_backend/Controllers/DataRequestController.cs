@@ -1,4 +1,3 @@
-using Azure.Core;
 using ID_model.DTOs;
 using ID_model.Models;
 using ID_service.Interfaces;
@@ -17,10 +16,21 @@ namespace ID_backend.Controllers
             _service = service;
         }
 
+        [HttpPost]
+        public async Task<ActionResult<DataRequestModel>> CreateDataRequest(DataRequestDTO requestDto)
+        {
+            var request = await _service.CreateDataRequest(requestDto);
+
+            if (request is null) return BadRequest("Client/Company not found");
+
+            return Ok(request);
+        }
+
         [HttpGet]
         public async Task<ActionResult<List<BasicDataRequestInfosDTO>>> GetAllDataRequest()
         {
             var requests = await _service.GetAllDataRequest();
+
             return Ok(requests);
         }
 
@@ -28,29 +38,17 @@ namespace ID_backend.Controllers
         public async Task<ActionResult<BasicDataRequestInfosDTO>> GetDataRequestById(Guid id)
         {
             var request = await _service.GetDataRequestById(id);
+
             if (request is null) return BadRequest("Request not found");
-            return Ok(request);
-        }
 
-        [HttpPost]
-        public async Task<ActionResult<DataRequestModel>> CreateDataRequest(DataRequestDTO requestDto)
-        {
-            var request = await _service.CreateDataRequest(requestDto);
-            if (request is null) return BadRequest("Client/Company not found");
             return Ok(request);
-        }
-
-        [HttpPut("ChangeStatusRequestById")]
-        public async Task<ActionResult<BasicDataRequestInfosDTO>> ChangeStatusDataRequestById(Guid requestId, string status)
-        {
-            var request = await _service.ChangeStatusDataRequestById(requestId, status);
-            return request is not null ? Ok(request) : BadRequest("Data Request not found"); ;
         }
 
         [HttpGet("client/{clientId}")]
         public async Task<ActionResult<List<BasicDataRequestInfosDTO>>> GetDataRequestByClient(Guid clientId)
         {
             var requests = await _service.GetDataRequestByClient(clientId);
+
             return requests is not null ? Ok(requests) : BadRequest("Data Request not found");
         }
 
@@ -58,7 +56,16 @@ namespace ID_backend.Controllers
         public async Task<ActionResult<List<BasicDataRequestInfosDTO>>> GetDataRequestByStatus(string status)
         {
             var requests = await _service.GetDataRequestByStatus(status);
+
             return requests is not null ? Ok(requests) : BadRequest("Data Requests not found"); ;
+        }
+
+        [HttpPut("ChangeStatusRequestById")]
+        public async Task<ActionResult<BasicDataRequestInfosDTO>> ChangeStatusDataRequestById(Guid requestId, string status)
+        {
+            var request = await _service.ChangeStatusDataRequestById(requestId, status);
+
+            return request is not null ? Ok(request) : BadRequest("Data Request not found"); ;
         }
     }
 }
