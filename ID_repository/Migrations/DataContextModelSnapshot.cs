@@ -74,6 +74,10 @@ namespace ID_repository.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<byte[]>("Iv")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
@@ -104,9 +108,9 @@ namespace ID_repository.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SecurityPhrase")
+                    b.Property<byte[]>("SecurityPhrase")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("SocialName")
                         .HasColumnType("nvarchar(max)");

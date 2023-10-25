@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ID_repository.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231025135133_InitialMigration")]
+    [Migration("20231025175717_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -77,6 +77,18 @@ namespace ID_repository.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Iv")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("Key")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("NIC")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -99,9 +111,9 @@ namespace ID_repository.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SecurityPhrase")
+                    b.Property<byte[]>("SecurityPhrase")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("SocialName")
                         .HasColumnType("nvarchar(max)");
@@ -141,6 +153,14 @@ namespace ID_repository.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Iv")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("Key")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<byte[]>("Password")
                         .IsRequired()
