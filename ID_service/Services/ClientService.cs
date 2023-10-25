@@ -34,8 +34,7 @@ namespace ID_service.Services
         public async Task<ClientModel?> GetClientByUsername(string username)
         {
             var client = await _context.Clients.Include(c => c.Address)
-                .FirstOrDefaultAsync(c => c.Username == username)
-                ?? throw new Exception("Client Not Found");
+                .FirstOrDefaultAsync(c => c.Username == username);
 
             return client is not null ? client : null;
         }
@@ -114,7 +113,7 @@ namespace ID_service.Services
 
                 client.Address = address;
 
-                _context.Addresses.AddAsync(address);
+                await _context.Addresses.AddAsync(address);
                 _context.Clients.Update(client);
             }
             else
@@ -155,6 +154,24 @@ namespace ID_service.Services
             await _context.SaveChangesAsync();
 
             return client;
+        }
+        
+        public async Task<DataRequestModel?> UpdateStatusRequestByUsername(string username, Guid requestId, string status)
+        {
+            var client = await GetClientByUsername(username);
+
+            var request = await _context.DataRequests.FirstOrDefaultAsync(r => r.ClientId == client.Id && r.Id == requestId);
+
+            if (request == null){return null;}
+
+            request.Status = status;
+            
+            if (request.RequestExpiration < DateTime.Now) request.Status = "Expired";
+
+            _context.DataRequests.Update(request);
+            await _context.SaveChangesAsync();
+
+            return request;
         }
     }
 }
