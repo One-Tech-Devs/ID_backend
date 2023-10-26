@@ -28,18 +28,19 @@ Este repositório contém o código-fonte e a documentação para um aplicativo 
 Para obter informações detalhadas sobre como usar o aplicativo, consulte algum de nossos desenvolvedores:
 
 ### FrontEnd
-- Klaus - [LinkedIn](https://www.linkedin.com/in/klausjr/)
+[![Linkedin Badge](https://img.shields.io/badge/-Klaus-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/klausjr/)](https://www.linkedin.com/in/klausjr/)
 
 ### DevOps
-- Claudinei - [LinkedIn](https://www.linkedin.com/in/claudinei-santos-ti/)
-- Leonardo - [LinkedIn](https://www.linkedin.com/in/leonardo-fronza-b39584196/)
+[![Linkedin Badge](https://img.shields.io/badge/-Claudinei-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/claudinei-santos-ti/)](https://www.linkedin.com/in/claudinei-santos-ti/)
+[![Linkedin Badge](https://img.shields.io/badge/-Leonardo-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/leonardo-fronza-b39584196/)](https://www.linkedin.com/in/leonardo-fronza-b39584196/)
 
 ### BackEnd
-- Raul - [LinkedIn](https://www.linkedin.com/in/raulhenriquefurtado/)
-- Caio - [LinkedIn](https://www.linkedin.com/in/caiodsj/)
-- Felipe - [LinkedIn](https://www.linkedin.com/in/fellipedinelli014/)
-- Bernardo - [LinkedIn](https://www.linkedin.com/in/bernardo-chiamolera/)
-- Rafael - [LinkedIn](https://www.linkedin.com/in/rafael-demarch/)
+[![Linkedin Badge](https://img.shields.io/badge/-Raul-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/raulhenriquefurtado/)](https://www.linkedin.com/in/raulhenriquefurtado/)
+[![Linkedin Badge](https://img.shields.io/badge/-Caio-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/caiodsj/)](https://www.linkedin.com/in/caiodsj/)
+[![Linkedin Badge](https://img.shields.io/badge/-Felipe-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/fellipedinelli014/)](https://www.linkedin.com/in/fellipedinelli014/)
+[![Linkedin Badge](https://img.shields.io/badge/-Bernardo-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/bernardo-chiamolera/)](https://www.linkedin.com/in/bernardo-chiamolera/)
+[![Linkedin Badge](https://img.shields.io/badge/-Rafael-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/rafael-demarch/)](https://www.linkedin.com/in/rafael-demarch/)
+
 
 
 
